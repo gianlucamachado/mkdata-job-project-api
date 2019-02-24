@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -43,6 +44,16 @@ public class CustomerController {
         }
 
         return ResponseEntity.ok().body(customer.get());
+    }
+
+    @GetMapping("/customers/customer-by-document/{document_one}")
+    public List<Customer> getCustomerByDocument(@PathVariable(value = "document_one") String document_one) {
+
+        List<Customer> customers = customerRepository.findAll().stream()
+                .filter(customer -> customer.getDocument_one().equals(document_one.toString()))
+                .collect(Collectors.toList());
+
+        return customers;
     }
 
     @PostMapping("/customers/{id}")
