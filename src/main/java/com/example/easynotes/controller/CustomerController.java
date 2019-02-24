@@ -30,7 +30,14 @@ public class CustomerController {
     }
 
     @PutMapping("/customers")
-    public Customer createCustomer(@Valid @RequestBody Customer customer) {
+    public Customer createCustomer(@Valid @RequestBody Customer customer) throws Exception {
+
+        List<Customer> customers = getCustomersByDocument(customer.getDocument_one());
+
+        if (customers.size() > 0) {
+            throw new Exception("error/user-already-exists");
+        }
+        
         return customerRepository.save(customer);
     }
 
@@ -47,7 +54,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/customer-by-document/{document_one}")
-    public List<Customer> getCustomerByDocument(@PathVariable(value = "document_one") String document_one) {
+    public List<Customer> getCustomersByDocument(@PathVariable(value = "document_one") String document_one) {
 
         List<Customer> customers = customerRepository.findAll().stream()
                 .filter(customer -> customer.getDocument_one().equals(document_one.toString()))
