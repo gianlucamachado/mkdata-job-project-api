@@ -28,7 +28,7 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
-    @PostMapping("/customers")
+    @PutMapping("/customers")
     public Customer createCustomer(@Valid @RequestBody Customer customer) {
         return customerRepository.save(customer);
     }
