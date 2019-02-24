@@ -11,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "customers", uniqueConstraints = { @UniqueConstraint(columnNames = { "document_one" }) })
@@ -21,17 +21,22 @@ import java.util.Set;
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 public class Customer {
 
-  @ManyToMany(cascade = { CascadeType.ALL })
+  @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(name = "customers_phones", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = {
       @JoinColumn(name = "phone_id") })
-  Set<Phone> phones = new HashSet<>();
+  @JsonIgnoreProperties("customers")
+  private List<Phone> phones = new ArrayList<>();
 
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "customer_id")
   private Long customer_id;
 
   @NotBlank
   private String name;
+
+  @NotBlank
+  private String email;
 
   @NotBlank
   private String type;
@@ -60,11 +65,11 @@ public class Customer {
   @LastModifiedDate
   private Date updatedAt;
 
-  public Set<Phone> getPhones() {
+  public List<Phone> getPhones() {
     return this.phones;
   }
 
-  public void setPhones(Set<Phone> phones) {
+  public void setPhones(List<Phone> phones) {
     this.phones = phones;
   }
 
@@ -142,6 +147,14 @@ public class Customer {
 
   public void setUpdatedAt(Date updatedAt) {
     this.updatedAt = updatedAt;
+  }
+
+  public String getEmail() {
+    return this.email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 
 }

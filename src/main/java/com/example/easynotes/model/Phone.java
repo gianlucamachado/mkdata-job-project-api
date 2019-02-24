@@ -8,9 +8,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "phones")
@@ -19,11 +19,12 @@ import java.util.Set;
 public class Phone {
 
   @ManyToMany(mappedBy = "phones")
-  private Set<Customer> customers = new HashSet<>();
+  @JsonIgnoreProperties("phones")
+  private List<Customer> customers = new ArrayList<>();
 
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
-  @Column(nullable = false, updatable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "phone_id")
   private Long phone_id;
 
   @NotBlank
@@ -39,11 +40,11 @@ public class Phone {
   @LastModifiedDate
   private Date updatedAt;
 
-  public Set<Customer> getCustomers() {
+  public List<Customer> getCustomers() {
     return this.customers;
   }
 
-  public void setCustomers(Set<Customer> customers) {
+  public void setCustomers(List<Customer> customers) {
     this.customers = customers;
   }
 
@@ -54,7 +55,7 @@ public class Phone {
   public void setPhone_id(Long phone_id) {
     this.phone_id = phone_id;
   }
-  
+
   public String getNumber() {
     return this.number;
   }
