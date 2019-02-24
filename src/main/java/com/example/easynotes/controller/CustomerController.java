@@ -5,6 +5,7 @@ import com.example.easynotes.repository.CustomerRepository;
 import com.example.easynotes.repository.PhoneRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class CustomerController {
 
     @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+        return customerRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     @PutMapping("/customers")
