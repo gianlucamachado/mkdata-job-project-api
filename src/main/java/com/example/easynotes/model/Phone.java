@@ -27,9 +27,6 @@ public class Phone {
   private Long phone_id;
 
   @NotBlank
-  private String ddd;
-
-  @NotBlank
   private String number;
 
   @Column(nullable = false, updatable = false)
@@ -57,15 +54,7 @@ public class Phone {
   public void setPhone_id(Long phone_id) {
     this.phone_id = phone_id;
   }
-
-  public String getDdd() {
-    return this.ddd;
-  }
-
-  public void setDdd(String ddd) {
-    this.ddd = ddd;
-  }
-
+  
   public String getNumber() {
     return this.number;
   }

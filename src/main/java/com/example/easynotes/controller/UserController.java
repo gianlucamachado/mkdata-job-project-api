@@ -4,6 +4,7 @@ import com.example.easynotes.model.ApplicationUser;
 import com.example.easynotes.repository.ApplicationUserRepository;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,4 +28,7 @@ public class UserController {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     return applicationUserRepository.save(user);
   }
+
+  @GetMapping("/validate")
+  public void validate() {}
 }
