@@ -68,4 +68,21 @@ public class CustomerController {
         return ResponseEntity.ok(updatedC);
 
     }
+
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable(value = "id") Long customer_id) {
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(customer_id);
+        Customer customer = optionalCustomer.get();
+
+        if (customer == null) {
+
+            return ResponseEntity.notFound().build();
+
+        }
+
+        customerRepository.delete(customer);
+
+        return ResponseEntity.ok().build();
+    }
 }
