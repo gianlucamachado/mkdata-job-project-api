@@ -45,8 +45,6 @@ public class Customer {
 
   @NotBlank
   private String document_one;
-
-  @NotBlank
   private String document_two;
 
   @NotBlank
