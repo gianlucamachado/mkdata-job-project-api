@@ -35,7 +35,37 @@ public class CustomerController {
 
     @GetMapping("/customers/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") Long customer_id) {
+
         Optional<Customer> customer = customerRepository.findById(customer_id);
+
+        if (customer.get() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok().body(customer.get());
+    }
+
+    @PostMapping("/customers/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long customer_id,
+            @Valid @RequestBody Customer customerDetails) {
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(customer_id);
+        Customer customer = optionalCustomer.get();
+
+        if (customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        customer.setName(customerDetails.getName());
+        customer.setEmail(customerDetails.getEmail());
+        customer.setDocument_two(customerDetails.getDocument_two());
+        customer.setGroup(customerDetails.getGroup());
+        customer.setType(customerDetails.getType());
+        customer.setIs_active(customerDetails.getIs_active());
+        customer.setPhones(customerDetails.getPhones());
+        Customer updatedC = customerRepository.save(customer);
+
+        return ResponseEntity.ok(updatedC);
+
     }
 }
